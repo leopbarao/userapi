@@ -59,6 +59,17 @@ public class UserServiceImpl implements UserService {
 		return userRepo.findById(id).map(u -> new UserDTO(u))
 				.orElseThrow(() -> new UserAPIObjectNotFoundException("User not found: " + id));
 	}
+	
+	@Override
+	public UserDTO findByEmail(String email) {
+		UserModel model = userRepo.findByEmail(email).get(0);
+		
+		if (model == null) {
+			throw new UserAPIObjectNotFoundException("User not found: " + email);
+		}
+		
+		return new UserDTO(model);
+	}	
 
 	@Transactional
 	@Override

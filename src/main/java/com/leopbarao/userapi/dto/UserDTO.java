@@ -13,9 +13,11 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.leopbarao.userapi.controller.validators.UserDTOConstraint;
 import com.leopbarao.userapi.model.UserModel;
 import com.leopbarao.userapi.model.enums.ProfileEnum;
 
+@UserDTOConstraint
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 

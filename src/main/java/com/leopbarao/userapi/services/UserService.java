@@ -13,6 +13,8 @@ public interface UserService {
 	Page<UserDTO> findAll(Integer page, Integer linesPerPage, String orderBy, String direction);
 
 	UserDTO findById(Long id);
+	
+	UserDTO findByEmail(String email);
 
 	UserDTO insert(UserDTO user);
 
