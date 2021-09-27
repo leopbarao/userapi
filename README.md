@@ -1,2 +1,3 @@
 # userapi
-API inteligente de usuários com SpringBoot
+API to manage users using SpringBoot
+
