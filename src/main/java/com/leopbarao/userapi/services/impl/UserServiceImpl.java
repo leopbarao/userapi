@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.leopbarao.userapi.dto.AddressDTO;
 import com.leopbarao.userapi.dto.UserDTO;
+import com.leopbarao.userapi.dto.UserNewDTO;
 import com.leopbarao.userapi.model.AddressModel;
 import com.leopbarao.userapi.model.UserModel;
 import com.leopbarao.userapi.model.enums.ProfileEnum;
@@ -62,32 +63,29 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserDTO findByEmail(String email) {
-		UserModel model = userRepo.findByEmail(email).get(0);
+		UserModel model = userRepo.findByEmail(email);
 		
-		if (model == null) {
-			throw new UserAPIObjectNotFoundException("User not found: " + email);
-		}
-		
-		return new UserDTO(model);
+		return model != null ? new UserDTO(model) : null;
 	}	
 
 	@Transactional
 	@Override
-	public UserDTO insert(UserDTO user) {
+	public UserNewDTO insert(UserNewDTO user) {
 		UserModel model = userRepo.save(userFromDTO(user));
-		return new UserDTO(model);
+		return new UserNewDTO(model);
 	}
 
 	@Transactional
 	@Override
-	public void update(UserDTO user) {
-		if (user.getId() == null) {
+	public UserDTO update(UserDTO user) {
+		if (user.getId().equals(null)) {
 			throw new UserAPIObjectNotFoundException("User ID not found");
 		}
 
-		UserModel model = userRepo.getById(user.getId());
+		UserModel model = userRepo.findById(user.getId()).orElseThrow(() -> new UserAPIObjectNotFoundException("User ID not found"));
+		
 		userMapper.updateUserFromDto(user, model);
-		userRepo.save(model);
+		return new UserDTO(userRepo.save(model));
 	}
 
 	@Transactional
@@ -105,7 +103,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	private UserModel userFromDTO(UserDTO newUserDto) {
+	private UserModel userFromDTO(UserNewDTO newUserDto) {
 
 		if (newUserDto != null) {
 			UserModel model = new UserModel();

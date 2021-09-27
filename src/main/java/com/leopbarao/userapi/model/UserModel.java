@@ -5,13 +5,14 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -51,7 +52,8 @@ public class UserModel implements Serializable {
 			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
 	)
 	@Column(name = "profile_id")
-	private Set<Integer> profiles = new HashSet<>();
+	@Enumerated(EnumType.STRING)
+	private Set<ProfileEnum> profiles = new HashSet<>();
 
 	public UserModel() {
 		addProfile(ProfileEnum.USER);
@@ -117,11 +119,11 @@ public class UserModel implements Serializable {
 	}
 
 	public Set<ProfileEnum> getProfiles() {
-		return profiles.stream().map(p -> ProfileEnum.convertToEnum(p)).collect(Collectors.toSet());
+		return profiles;
 	}
 
 	public void addProfile(ProfileEnum profile) {
-		profiles.add(profile.getCode());
+		profiles.add(profile);
 	}
 
 	@Override

@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leopbarao.userapi.dto.UserDTO;
+import com.leopbarao.userapi.dto.UserNewDTO;
 import com.leopbarao.userapi.services.UserService;
 
 @RestController
-@RequestMapping(value = "/userapi")
+@RequestMapping(value = "/")
 public class UserController {
 
 	@Autowired
@@ -32,26 +33,25 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserDTO userDto) {
-		UserDTO user = userService.insert(userDto);
-		return ResponseEntity.created(URI.create("/userapi/" + user.getId())).body(user);
+	public ResponseEntity<UserNewDTO> insert(@Valid @RequestBody UserNewDTO userDto) {
+		UserNewDTO user = userService.insert(userDto);
+		return ResponseEntity.created(URI.create("/userapi/users/" + user.getId())).body(user);
 	}
 
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-	public ResponseEntity<UserDTO> findOne(@Valid @PathVariable Long id) {
+	public ResponseEntity<UserDTO> findOne(@PathVariable Long id) {
 		UserDTO user = userService.findById(id);
 		return ResponseEntity.ok(user);
 	}
 
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<UserDTO> update(@Valid @RequestBody UserDTO userDto, @Valid @PathVariable Long id) {
+	public ResponseEntity<UserDTO> update(@Valid @RequestBody UserDTO userDto, @PathVariable Long id) {
 		userDto.setId(id);
-		userService.update(userDto);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok(userService.update(userDto));
 	}
 
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		userService.delete(id);
 		return ResponseEntity.noContent().build();
 	}

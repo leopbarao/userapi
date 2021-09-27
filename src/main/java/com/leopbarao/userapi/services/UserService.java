@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.leopbarao.userapi.dto.UserDTO;
+import com.leopbarao.userapi.dto.UserNewDTO;
 
 public interface UserService {
 
@@ -16,9 +17,9 @@ public interface UserService {
 	
 	UserDTO findByEmail(String email);
 
-	UserDTO insert(UserDTO user);
+	UserNewDTO insert(UserNewDTO user);
 
-	void update(UserDTO user);
+	UserDTO update(UserDTO user);
 
 	void delete(Long id);
 }

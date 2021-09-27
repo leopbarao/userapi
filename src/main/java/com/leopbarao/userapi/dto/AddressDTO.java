@@ -2,8 +2,6 @@ package com.leopbarao.userapi.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leopbarao.userapi.model.AddressModel;
 
@@ -14,14 +12,9 @@ public class AddressDTO implements Serializable {
 	private Long id;
 
 	private String publicArea;
-
-	@NotEmpty(message = "Required field")
 	private String number;
-
 	private String additionalNumber;
 	private String district;
-
-	@NotEmpty(message = "Required field")
 	private String zipCode;
 	private String city;
 	private String state;

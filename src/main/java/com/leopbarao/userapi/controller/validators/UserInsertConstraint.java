@@ -10,10 +10,10 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = UserDTOValidator.class)
+@Constraint(validatedBy = UserInsertValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UserDTOConstraint {
+public @interface UserInsertConstraint {
     String message() default "Data validation error";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
